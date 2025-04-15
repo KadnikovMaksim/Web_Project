@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Наше приложение</a>
+
+    </nav>
+    <h1>Миссия Колонизация Марса</h1>
+    <h4>И на Марсе будут яблони цвести!</h4>
+
+</header>
+
+<!-- Begin page content -->
+<main role="main" class="container">
+    {% block content %}
+    {% if 'инженер' in profession or 'строитель'  in profession %}
+    <h2>Инженерные тренажёры</h2>
+     <img src="img/liriliri_larila.png"
+               alt="здесь должна была быть картинка, но не нашлась">
+{% else %}
+    <h2>Научные симуляторы</h2>
+     <img src="img/liriliri_larila1.png"
+               alt="здесь должна была быть картинка, но не нашлась">
+{% endif %}
+    {% endblock %}
+</main>
+</body>
+</html>
+
