@@ -9,7 +9,7 @@ class Questions(SqlAlchemyBase):
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
-    user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('users.id'))
+    user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('users.id'), nullable=False)
     questions = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     answers = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     subject = sqlalchemy.Column(sqlalchemy.String, nullable=False)
