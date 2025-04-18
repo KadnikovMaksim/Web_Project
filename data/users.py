@@ -11,7 +11,7 @@ class Users(SqlAlchemyBase, UserMixin):
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
     login = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    password = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     created_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                      default=datetime.datetime.now)
     questions = orm.relationship("Questions", back_populates="user")
