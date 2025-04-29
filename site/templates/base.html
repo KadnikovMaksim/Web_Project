@@ -13,7 +13,17 @@
     <nav class="navbar navbar-light bg-light">
     <nav class="navbar navbar-light bg-light">
 {% if current_user.is_authenticated %}
-    <a class="navbar-brand" href="/logout">Выйти</a>
+        <nav class="navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand active" aria-current="page" href="/home">Каталог</a>
+                <a class="nav-link current" href="profile">Профиль</a>
+                <a class="nav-link" href="#">Наш бот</a>
+                <a class="nav-link" href="/logout">Выйти</a>
+
+            </div>
+        </nav>
+
+
 {% else %}
     <p>
         <a class="btn btn-primary " href="/register">Зарегистрироваться</a>
@@ -29,8 +39,12 @@
 
 <!-- Begin page content -->
 <main role="main" class="container">
-    {% block content %}{% endblock %}
+        {% block content %}
+        {% endblock %}
+
 </main>
 </body>
 </html>
+
+
 
