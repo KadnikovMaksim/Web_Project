@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1>Ваши задания</h1>
+    <a href="home" class="btn btn-secondary">Добавить Задание</a>
+</div>
+<br>
+{% for quest in quests%}
+<div class="col-md6 border rounded">
+    <h2>{{quest.topic}}</h2>
+    <h3>
+        {{quest.questions}}
+    </h3>
+    <p>Предмет - {{quest.subject}}</p>
+    <div>
+        Дата создание - {{quest.created_at}}
+    </div>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#a">
+        Редактировать
+    </button>
+        <div class="modal fade" id="a" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="abel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="abel">Редактирование</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="topic" class="col-form-label">Название:</label>
+                <input type="text" class="form-control" id="topic" name="topic">
+              </div>
+                <div class="mb-3">
+                <label for="question" class="col-form-label">Вопрос:</label>
+                <input type="text" class="form-control" id="question" name="question">
+              </div>
+                <div class="mb-3">
+                <label for="subject" class="col-form-label">Предмет:</label>
+                <input type="text" class="form-control" id="subject" name="subject">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            <form method="POST">
+                <button type="submit" name="my_button">Сохранить</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<br>
+{% endfor %}
+
+{% endblock %}
