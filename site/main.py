@@ -1,3 +1,4 @@
+
 from data.users import Users
 from data.questions import Questions
 import sozdanie_BD
@@ -10,8 +11,12 @@ from wtforms.validators import DataRequired
 from flask import render_template
 from flask import redirect
 from forms.user import LoginForm, RegisterForm
+from forms.quizes import CreateForm
+from flask_bootstrap import Bootstrap5
 
 app = Flask(__name__)
+bootstrap = Bootstrap5(app)
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -81,10 +86,26 @@ def main():
     quests = db_sess.query(Questions).filter(Questions.user_id == current_user.id)
     return render_template('home.html', title='', quests=quests)
 
+@app.route('/home/Create', methods=['GET', 'POST'])
+def Create():
+    form = CreateForm()
+    if form.validate_on_submit():
+        db_sess = sozdanie_BD.db_session.create_session()
+        quiz = Questions()
+        quiz.user_id = current_user.id
+        quiz.topic = form.topic.data
+        quiz.questions = str(form.question.data)
+        quiz.subject = form.subject.data
+        quiz.answers = form.answer.data
+        db_sess.add(quiz)
+        db_sess.commit()
+        return redirect('/home')
+    return render_template('Create.Change.html', tit='Создание вопроса', form=form)
+
 
 @app.route('/')
 def a():
-    return render_template('base.html', title='Аунтефикация')
 
+    return render_template('base.html', title='Аунтефикация')
 
 app.run()
