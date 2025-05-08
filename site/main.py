@@ -2,7 +2,7 @@
 from data.users import Users
 from data.questions import Questions
 import sozdanie_BD
-from flask import Flask, request
+from flask import Flask, request, abort
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 import sqlalchemy
 from flask_wtf import FlaskForm
@@ -11,11 +11,11 @@ from wtforms.validators import DataRequired
 from flask import render_template
 from flask import redirect
 from forms.user import LoginForm, RegisterForm
-from forms.quizes import CreateForm
-from flask_bootstrap import Bootstrap5
+from forms.quizes import CreateForm, ChangeForm
+#from flask_bootstrap import Bootstrap5
 
 app = Flask(__name__)
-bootstrap = Bootstrap5(app)
+#bootstrap = Bootstrap5(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -100,8 +100,50 @@ def Create():
         db_sess.add(quiz)
         db_sess.commit()
         return redirect('/home')
-    return render_template('Create.Change.html', tit='Создание вопроса', form=form)
+    return render_template('quests.html', tit='Создание вопроса', form=form)
 
+@app.route('/home/Change<int:id>', methods=['GET', 'POST'])
+@login_required
+def change_quiz(id):
+    form = ChangeForm()
+    if request.method == "GET":
+        db_sess = sozdanie_BD.db_session.create_session()
+        quest = db_sess.query(Questions).filter(Questions.id == id, Questions.user == current_user).first()
+        if quest:
+            form.topic.data = quest.topic
+            form.subject.data = quest.subject
+            form.answer.data = quest.answers
+            form.question.data = quest.questions
+        else:
+            abort(404)
+
+    if form.validate_on_submit():
+        db_sess = sozdanie_BD.db_session.create_session()
+        quest = db_sess.query(Questions).filter(Questions.id == id, Questions.user == current_user).first()
+
+        if quest:
+            quest.topic = form.topic.data
+            quest.subject = form.subject.data
+            quest.answers = form.answer.data
+            quest.questions = form.question.data
+            db_sess.commit()
+            return redirect('/home')
+        else:
+            abort(404)
+
+    return render_template('quests.html', form=form)
+
+@app.route('/quizes_delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def news_delete(id):
+    db_sess = sozdanie_BD.db_session.create_session()
+    quest = db_sess.query(Questions).filter(Questions.id == id, Questions.user_id == current_user.id).first()
+    if quest:
+        db_sess.delete(quest)
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect('/home')
 
 @app.route('/')
 def a():
