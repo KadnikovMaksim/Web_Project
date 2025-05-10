@@ -14,7 +14,7 @@
         </p>
         <p>
             {{ form.subject.label }}<br>
-            {{ form.subject(class="form-choice") }}<br>
+            {{ form.subject(class="form-control") }}<br>
             {% for error in form.subject.errors %}
                 <div class="alert alert-danger" role="alert">
                     {{ error }}
