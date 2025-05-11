@@ -10,7 +10,7 @@ from wtforms import PasswordField, StringField, TextAreaField, SubmitField, Emai
 from wtforms.validators import DataRequired
 from flask import render_template
 from flask import redirect
-from forms.user import LoginForm, RegisterForm
+from forms.user import LoginForm, RegisterForm, ChangeInfo
 from forms.quizes import CreateForm, ChangeForm
 #from flask_bootstrap import Bootstrap5
 
@@ -144,6 +144,37 @@ def news_delete(id):
     else:
         abort(404)
     return redirect('/home')
+
+@app.route('/Bot', methods=['GET'])
+def Bot_page():
+    return render_template('Bot.html')
+
+@app.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+    form = ChangeInfo()
+    if request.method == 'GET':
+        db_sess = sozdanie_BD.db_session.create_session()
+        userr = db_sess.query(Users).filter(Users.id == current_user.id).first()
+        if userr:
+            form.login.data = userr.login
+            form.about.data = userr.about
+        else:
+            abort(404)
+
+    if form.validate_on_submit():
+        db_sess = sozdanie_BD.db_session.create_session()
+        userr = db_sess.query(Users).filter(Users.id == current_user.id).first()
+
+        if userr:
+            userr.about = form.about.data
+            userr.login = form.login.data
+            db_sess.commit()
+            return redirect('/home')
+        else:
+            abort(404)
+
+    return render_template('profile.html', form=form)
 
 @app.route('/')
 def a():
