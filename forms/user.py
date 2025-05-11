@@ -16,3 +16,9 @@ class LoginForm(FlaskForm):
     password = PasswordField('Пароль', validators=[DataRequired()])
     remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Войти')
+
+class ChangeInfo(FlaskForm):
+    login = StringField('Логин', validators=[DataRequired()])
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    about = TextAreaField("Немного о себе")
+    submit = SubmitField('Сохранить')
